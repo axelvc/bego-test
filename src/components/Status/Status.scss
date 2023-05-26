@@ -1,0 +1,17 @@
+.status {
+  display: grid;
+  grid-auto-flow: column;
+  place-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+
+  &__indicator {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    background: #0394ff;
+    box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+  }
+}

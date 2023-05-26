@@ -1,0 +1,35 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header--title {
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+// more clickable space without affect layout
+.header--back,
+.header--notifications {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: block;
+    width: 2.5rem;
+    height: 2.5rem;
+    transform: translate(-50%, -50%);
+  }
+
+  &:focus-visible {
+    outline: none;
+
+    &::after {
+      outline: var(--outline-style);
+    }
+  }
+}

@@ -1,3 +1,7 @@
+import Orders from '@/views/orders/orders'
+// import Details from '@/views/details/details'
+
 export default function App() {
-  return <p>Hello world!</p>
+  return <Orders />
+  // return <Details />
 }

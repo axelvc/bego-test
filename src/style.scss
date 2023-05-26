@@ -1,1 +1,40 @@
 @import './reset.css';
+
+:root {
+  --color-bg: #080C0F;
+  --color-text: #ffffff;
+  --color-text-alt: #7b7b7b;
+  --color-accent: #ffff00;
+
+  --outline-style: solid var(--color-accent) 0.125rem;
+}
+
+*::selection {
+  color: var(--color-bg);
+  background: var(--color-accent);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  padding: 2.5rem;
+  font-family: 'Avenir', 'Open Sans', system-ui, sans-serif;
+}
+
+img {
+  user-select: none;
+}
+
+summary {
+  cursor: pointer;
+}
+
+*:focus-visible {
+  outline: var(--outline-style);
+}
+
+.centered-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
