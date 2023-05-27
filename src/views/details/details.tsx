@@ -43,7 +43,7 @@ export default function Details() {
 
       {details && (
         <>
-          <section className={s.order}>
+          <section className={clsx('gradient-border', s.order)}>
             <div className={s.order__reference}>Refrenecia {details.reference_number}</div>
             <div className={s.order__number}>Order #{details.order_number}</div>
 
@@ -74,7 +74,7 @@ export default function Details() {
             </ol>
           </section>
 
-          <section className={s.track}>
+          <section className={clsx('gradient-border', s.track)}>
             <div className={clsx('centered-flex', s.track__driver)}>
               {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
               <img src={details.driver.thumbnail || DefaultProfileImage} />
@@ -92,7 +92,7 @@ export default function Details() {
           </section>
 
           <details className={s.extra}>
-            <summary>
+            <summary className="gradient-border">
               {getDestinationType(details.destinations[focusedIndex])} Data
               <AngleUpIcon className={s.extra__open_indicator} />
             </summary>

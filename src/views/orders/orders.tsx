@@ -46,7 +46,7 @@ export default function Orders() {
                 Orden <span className={s.order__number}>#{order_number}</span>
               </h2>
 
-              <div className={s.order__card}>
+              <div className={clsx('gradient-border', s.order__card)}>
                 <header className={s.order__header}>
                   <div className={s.order__type}>
                     {orderTypeIcons[type]}

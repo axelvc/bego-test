@@ -1,7 +1,7 @@
 @import './reset.css';
 
 :root {
-  --color-bg: #080C0F;
+  --color-bg: #080c0f;
   --color-text: #ffffff;
   --color-text-alt: #7b7b7b;
   --color-accent: #ffff00;
@@ -37,4 +37,17 @@ summary {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.gradient-border {
+  position: relative;
+
+  &::after {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    inset: -1.5px;
+    background: var(--gradient-border-color);
+    border-radius: inherit;
+  }
 }
