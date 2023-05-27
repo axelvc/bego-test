@@ -1,4 +1,5 @@
-import { OrderDetails, StatusList } from '@/services/orders.types'
+import { OrderDetails, StatusList } from '@/services/orders/orders.service'
+import * as s from '../details.module.scss'
 
 interface Props {
   details: OrderDetails
@@ -9,9 +10,9 @@ export default function TrackInfo({ type, details }: Props) {
   const steps = details.status_list[type as keyof StatusList]
 
   return (
-    <ol className="track__steps">
+    <ol className={s.track__steps}>
       {steps.map(({ status }, i) => (
-        <li className="track__step" key={i}>
+        <li className={s.track__step} key={i}>
           {status}
         </li>
       ))}

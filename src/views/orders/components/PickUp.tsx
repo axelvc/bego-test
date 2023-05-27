@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import * as s from '../orders.module.scss'
+import clsx from 'clsx'
 
 const HOUR_IN_MS = 1000 * 60 * 60
 const MINUTE_IN_MS = 1000 * 60
@@ -28,12 +30,13 @@ export default function PickUp({ status, dateTime }: Props) {
       setRemainingTime(date.getTime() - Date.now())
     }, SECOND_IN_MS)
     return () => clearInterval(id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, dateTime])
 
   if (!hasPickup) return null
 
   if (remainingTime < 0) {
-    return <button className="order__pickup-button">Its time for pickup</button>
+    return <button className={s.order__pickup_button}>It's time for pickup</button>
   }
 
   const time = date.getTime() - Date.now()
@@ -42,9 +45,9 @@ export default function PickUp({ status, dateTime }: Props) {
   const seconds = String(Math.floor((time % MINUTE_IN_MS) / SECOND_IN_MS)).padStart(2, '0')
 
   return (
-    <div className="order__pickup centered-flex">
+    <div className={clsx('centered-flex', s.order__pickup)}>
       Start pickup in&nbsp;
-      <time dateTime={date.toISOString()} className="order__pickup-time">
+      <time dateTime={date.toISOString()} className={s.order__pickup_time}>
         {hours}:{minutes}:{seconds}
       </time>
     </div>

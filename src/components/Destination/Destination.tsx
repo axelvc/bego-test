@@ -1,5 +1,4 @@
-import clsx from 'clsx'
-import './Destination.scss'
+import * as s from './Destination.module.scss'
 
 interface Props {
   type: string
@@ -9,9 +8,9 @@ interface Props {
 
 export default function Destination({ type, address, className }: Props) {
   return (
-    <div className={clsx('destination', className)}>
-      <div className="destination__type">{type}</div>
-      <div className="destination__address">{address}</div>
+    <div className={className}>
+      <div className={s.destination__type}>{type}</div>
+      <div className={s.destination__address}>{address}</div>
     </div>
   )
 }

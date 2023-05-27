@@ -124,11 +124,11 @@
     background: linear-gradient(45deg, #080c0f 0%, rgba(38, 38, 38, 0.64) 100%);
 
     $parent: &;
-    &-button {
+    &_button {
       @extend #{$parent};
     }
 
-    &-time {
+    &_time {
       color: var(--color-accent);
     }
   }
@@ -140,7 +140,7 @@
     border-radius: 1.25rem;
   }
   &__resume,
-  &__pickup-button {
+  &__pickup_button {
     color: black;
     background: var(--color-accent);
     border: none;

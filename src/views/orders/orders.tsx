@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import clsx from 'clsx'
 import Header from '@/components/Header/Header'
 import Status from '@/components/Status/Status'
 import Destination from '@/components/Destination/Destination'
@@ -12,7 +13,7 @@ import { ReactComponent as TruckIcon } from '@/assets/truck-1.svg'
 import { ReactComponent as EyeIcon } from '@/assets/eye.svg'
 import { Order, getOrders } from '@/services/orders/orders.service'
 import { formatDate, formatTime } from '@/utils/date'
-import './orders.scss'
+import * as s from './orders.module.scss'
 
 const orderTypeIcons: Record<string, JSX.Element> = {
   FCL: <FreightIcon />,
@@ -35,24 +36,24 @@ export default function Orders() {
     <>
       <Header title="Cargo Orders" />
 
-      <label className="filter centered-flex">
-        <div className="filter__icon centered-flex">
+      <label className={clsx('centered-flex', s.filter)}>
+        <div className={clsx('centered-flex', s.filter__icon)}>
           <SearchIcon />
         </div>
 
-        <input className="filter__input" type="text" placeholder="Search..." />
+        <input className={s.filter__input} type="text" placeholder="Search..." />
       </label>
 
-      <section className="orders">
+      <section className={s.orders}>
         {orders.map(({ _id, order_number, type, status, status_string, status_class, destinations, start_date }) => (
-          <article key={_id} className="order">
-            <h2 className="order__title">
-              Orden <span className="order__number">#{order_number}</span>
+          <article key={_id} className={s.order}>
+            <h2 className={s.order__title}>
+              Orden <span className={s.order__number}>#{order_number}</span>
             </h2>
 
-            <div className="order__card">
-              <header className="order__header">
-                <div className="order__type">
+            <div className={s.order__card}>
+              <header className={s.order__header}>
+                <div className={s.order__type}>
                   {orderTypeIcons[type]}
                   {type}
                 </div>
@@ -60,24 +61,24 @@ export default function Orders() {
                 <Status status={status_string} statusClass={status_class} />
               </header>
 
-              <ol className="order__destinations">
+              <ol className={s.order__destinations}>
                 {destinations.map(({ address, nickname, start_date }) => (
-                  <li key={address} className="order__destination">
-                    <div className="order__destination__icon">{destinationTypeIcons[nickname]}</div>
+                  <li key={address} className={s.order__destination}>
+                    <div className={s.order__destination__icon}>{destinationTypeIcons[nickname]}</div>
                     <Destination type={nickname} address={address} />
 
-                    <Time timestamp={start_date} className="order__destination__date">
+                    <Time timestamp={start_date} className={s.order__destination__date}>
                       {formatDate(start_date, { dateStyle: 'short' })}
-                      <span className="order__destination__time">{formatTime(start_date, { hourCycle: 'h24' })}</span>
+                      <span className={s.order__destination__time}>{formatTime(start_date, { hourCycle: 'h24' })}</span>
                     </Time>
                   </li>
                 ))}
               </ol>
 
-              <footer className="order__actions">
+              <footer className={s.order__actions}>
                 <PickUp status={status} dateTime={start_date} />
 
-                <button className="order__resume centered-flex">
+                <button className={clsx('centered-flex', s.order__resume)}>
                   Resume
                   <EyeIcon />
                 </button>

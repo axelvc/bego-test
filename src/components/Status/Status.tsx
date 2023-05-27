@@ -1,5 +1,5 @@
-import './Status.scss'
 import clsx from 'clsx'
+import * as s from './Status.module.scss'
 
 interface Props {
   status: string
@@ -9,8 +9,8 @@ interface Props {
 
 export default function Status({ status, statusClass, className }: Props) {
   return (
-    <div className={clsx('status', className)}>
-      <div className={clsx('status__indicator', statusClass)} />
+    <div className={clsx(s.status, className)}>
+      <div className={clsx(s.status__indicator, statusClass)} />
       {status}
     </div>
   )

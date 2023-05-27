@@ -194,7 +194,7 @@
 .extra {
   margin-top: 3.125rem;
 
-  &:not([open]) &__open-indicator {
+  &:not([open]) &__open_indicator {
     transform: rotate(180deg);
   }
 

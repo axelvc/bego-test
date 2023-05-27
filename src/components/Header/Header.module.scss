@@ -4,14 +4,14 @@
   justify-content: space-between;
 }
 
-.header--title {
+.header__title {
   font-size: 1.125rem;
   font-weight: 500;
 }
 
 // more clickable space without affect layout
-.header--back,
-.header--notifications {
+.header__back,
+.header__notifications {
   position: relative;
 
   &::after {
