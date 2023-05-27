@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'wouter'
 import clsx from 'clsx'
 import Header from '@/components/Header/Header'
 import Status from '@/components/Status/Status'
@@ -78,10 +79,12 @@ export default function Orders() {
               <footer className={s.order__actions}>
                 <PickUp status={status} dateTime={start_date} />
 
-                <button className={clsx('centered-flex', s.order__resume)}>
-                  Resume
-                  <EyeIcon />
-                </button>
+                <Link href={`/order/${_id}`}>
+                  <a className={clsx('centered-flex', s.order__resume)}>
+                    Resume
+                    <EyeIcon />
+                  </a>
+                </Link>
               </footer>
             </div>
           </article>

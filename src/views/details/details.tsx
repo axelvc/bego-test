@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useRoute } from 'wouter'
 import Header from '@/components/Header/Header'
 import Status from '@/components/Status/Status'
 import Destination from '@/components/Destination/Destination'
@@ -21,10 +22,13 @@ enum DestinationType {
 export default function Details() {
   const [details, setDetails] = useState<OrderDetails>({} as unknown as OrderDetails)
   const [pickedDestination, setPickedDestination] = useState<DetailedDestination | null>(null)
+  const [, params] = useRoute('/details/:id')
 
   useEffect(() => {
-    getOrder('').then(setDetails).catch(console.error)
-  }, [])
+    getOrder(params?.id ?? '')
+      .then(setDetails)
+      .catch(console.error)
+  }, [params?.id])
 
   function getDestinationType(destination: DetailedDestination): DestinationType {
     if (destination.place_id_pickup) return DestinationType.Pickup
