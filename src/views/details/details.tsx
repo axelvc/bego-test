@@ -11,7 +11,7 @@ import { ReactComponent as TruckIcon } from '@/assets/truck-2.svg'
 import { ReactComponent as AngleUpIcon } from '@/assets/angle-small-up.svg'
 import { DetailedDestination, OrderDetails, getOrder } from '@/services/orders/orders.service'
 import { formatDate, formatTime } from '@/utils/date'
-import * as s from './details.module.scss'
+import s from './details.module.scss'
 
 enum DestinationType {
   Pickup = 'pickup',

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import * as s from '../orders.module.scss'
 import clsx from 'clsx'
+import s from '../orders.module.scss'
 
 const HOUR_IN_MS = 1000 * 60 * 60
 const MINUTE_IN_MS = 1000 * 60

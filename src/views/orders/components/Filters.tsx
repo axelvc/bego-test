@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import { ReactComponent as SearchIcon } from '@/assets/search.svg'
 import { Order } from '@/services/orders/orders.service'
 import { useOrderState } from '@/views/orders/orders.state'
-import * as s from '../orders.module.scss'
+import s from '../orders.module.scss'
 
 interface CategoryFilter {
   label: string

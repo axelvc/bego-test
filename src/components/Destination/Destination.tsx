@@ -1,4 +1,4 @@
-import * as s from './Destination.module.scss'
+import s from './Destination.module.scss'
 
 interface Props {
   type: string

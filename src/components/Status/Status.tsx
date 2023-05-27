@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import * as s from './Status.module.scss'
+import s from './Status.module.scss'
 
 interface Props {
   status: string

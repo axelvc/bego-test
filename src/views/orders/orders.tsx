@@ -15,7 +15,7 @@ import { ReactComponent as EyeIcon } from '@/assets/eye.svg'
 import { getOrders } from '@/services/orders/orders.service'
 import { formatDate, formatTime } from '@/utils/date'
 import { useOrderState } from './orders.state'
-import * as s from './orders.module.scss'
+import s from './orders.module.scss'
 
 const orderTypeIcons: Record<string, JSX.Element> = {
   FCL: <FreightIcon />,

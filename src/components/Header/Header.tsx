@@ -1,7 +1,7 @@
 import { Link } from 'wouter'
 import { ReactComponent as BackIcon } from '@/assets/angle-small-left.svg'
 import { ReactComponent as BellIcon } from '@/assets/bell.svg'
-import * as s from './Header.module.scss'
+import s from './Header.module.scss'
 
 interface Props {
   title: string

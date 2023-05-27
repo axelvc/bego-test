@@ -1,6 +1,6 @@
 import { OrderDetails, StatusList } from '@/services/orders/orders.service'
 import clsx from 'clsx'
-import * as s from '../details.module.scss'
+import s from '../details.module.scss'
 
 interface Props {
   details: OrderDetails
