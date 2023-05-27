@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useRoute } from 'wouter'
+import clsx from 'clsx'
 import Header from '@/components/Header/Header'
 import Status from '@/components/Status/Status'
 import Destination from '@/components/Destination/Destination'
@@ -11,7 +12,6 @@ import { ReactComponent as AngleUpIcon } from '@/assets/angle-small-up.svg'
 import { DetailedDestination, OrderDetails, getOrder } from '@/services/orders/orders.service'
 import { formatDate, formatTime } from '@/utils/date'
 import * as s from './details.module.scss'
-import clsx from 'clsx'
 
 enum DestinationType {
   Pickup = 'pickup',
@@ -20,8 +20,8 @@ enum DestinationType {
 }
 
 export default function Details() {
-  const [details, setDetails] = useState<OrderDetails>({} as unknown as OrderDetails)
-  const [pickedDestination, setPickedDestination] = useState<DetailedDestination | null>(null)
+  const [details, setDetails] = useState<OrderDetails | null>(null)
+  const [focusedIndex, setFocusedIndex] = useState(0)
   const [, params] = useRoute('/details/:id')
 
   useEffect(() => {
@@ -40,74 +40,75 @@ export default function Details() {
   return (
     <>
       <Header title="Cargo Details" />
-      <section className={s.order}>
-        <div className={s.order__reference}>Refrenecia {details.reference_number}</div>
-        <div className={s.order__number}>Order: #{details.order_number}</div>
 
-        <ol className={s.order__destinations}>
-          {details.destinations?.map((destination) => (
-            <li key={destination.address} className={s.order__destination}>
-              <button
-                type="button"
-                className={s.order__destination__button}
-                onClick={() => setPickedDestination(destination)}
-              />
+      {details && (
+        <>
+          <section className={s.order}>
+            <div className={s.order__reference}>Refrenecia {details.reference_number}</div>
+            <div className={s.order__number}>Order #{details.order_number}</div>
 
-              <div className={clsx('centered-flex', s.order__destination__decorator)}>
-                <TruckIcon />
-              </div>
+            <ol className={s.order__destinations}>
+              {details.destinations.map((destination, i) => (
+                <li key={destination.address} className={s.order__destination}>
+                  <button type="button" className={s.order__destination__button} onClick={() => setFocusedIndex(i)} />
 
-              <div className={s.order__destination__details}>
-                <Destination address={destination.address} type={getDestinationType(destination)} />
-                <Status
-                  status={destination.status_string}
-                  statusClass={destination.status_class}
-                  className={s.order__destination__status}
-                />
-              </div>
-            </li>
-          ))}
-        </ol>
-      </section>
-      <section className={s.track}>
-        <div className={clsx('centered-flex', s.track__driver)}>
-          {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
-          <img src={details?.driver?.thumbnail || DefaultProfileImage} />
-        </div>
+                  <div
+                    className={clsx('centered-flex', {
+                      [s.order__destination__decorator]: true,
+                      [s.active]: i === focusedIndex,
+                    })}
+                  >
+                    {i === focusedIndex && <TruckIcon />}
+                  </div>
 
-        <Time className={s.track__time} timestamp={pickedDestination?.startDate ?? 0}>
-          {formatTime(pickedDestination?.startDate ?? 0)}
-        </Time>
+                  <div className={s.order__destination__details}>
+                    <Destination address={destination.address} type={getDestinationType(destination)} />
+                    <Status
+                      status={destination.status_string}
+                      statusClass={destination.status_class}
+                      className={s.order__destination__status}
+                    />
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </section>
 
-        {pickedDestination && <TrackInfo type={getDestinationType(pickedDestination)} details={details} />}
-
-        <button type="button" disabled={details.status < 3}>
-          Track Order
-        </button>
-      </section>
-
-      <details className={s.extra}>
-        <summary>
-          {getDestinationType(pickedDestination ?? ({} as unknown as DetailedDestination))} Data
-          <AngleUpIcon className={s.extra__open_indicator} />
-        </summary>
-
-        {pickedDestination
-          ? (
-            <div>
-              <p>{pickedDestination.address}</p>
-              <br />
-              <p>{formatDate(pickedDestination.startDate)}</p>
-              <br />
-              <p>{pickedDestination.contact_info.telephone}</p>
-              <br />
-              <p>{pickedDestination.contact_info.email}</p>
+          <section className={s.track}>
+            <div className={clsx('centered-flex', s.track__driver)}>
+              {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
+              <img src={details.driver.thumbnail || DefaultProfileImage} />
             </div>
-            )
-          : (
-            <p>Por favor selecciona un destino primero</p>
-            )}
-      </details>
+
+            <Time className={s.track__time} timestamp={details.destinations[focusedIndex].startDate}>
+              {formatTime(details.destinations[focusedIndex].startDate)}
+            </Time>
+
+            <TrackInfo type={getDestinationType(details.destinations[focusedIndex])} details={details} />
+
+            <button type="button" disabled={details.status < 3}>
+              Track Order
+            </button>
+          </section>
+
+          <details className={s.extra}>
+            <summary>
+              {getDestinationType(details.destinations[focusedIndex])} Data
+              <AngleUpIcon className={s.extra__open_indicator} />
+            </summary>
+
+            <div>
+              <p>{details.destinations[focusedIndex].address}</p>
+              <br />
+              <p>{formatDate(details.destinations[focusedIndex].startDate)}</p>
+              <br />
+              <p>{details.destinations[focusedIndex].contact_info.telephone}</p>
+              <br />
+              <p>{details.destinations[focusedIndex].contact_info.email}</p>
+            </div>
+          </details>
+        </>
+      )}
     </>
   )
 }
