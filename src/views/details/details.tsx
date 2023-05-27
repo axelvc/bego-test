@@ -1,81 +1,107 @@
+import { useEffect, useState } from 'react'
 import Header from '@/components/Header/Header'
-import LocationAddress from '@/components/LocationAddress/LocationAddress'
-import DriverImg from '@/assets/Driver.png'
+import Status from '@/components/Status/Status'
+import Destination from '@/components/Destination/Destination'
+import DefaultProfileImage from '@/assets/default-profile-image.jpg'
+import Time from '@/components/Time/Time'
+import TrackInfo from './components/TrackInfo'
 import { ReactComponent as TruckIcon } from '@/assets/truck-2.svg'
 import { ReactComponent as AngleUpIcon } from '@/assets/angle-small-up.svg'
+import { DetailedDestination, OrderDetails, getOrder } from '@/services/orders/orders.service'
+import { formatDate, formatTime } from '@/utils/date'
 import './details.scss'
-import Status from '@/components/Status/Status'
+
+enum DestinationType {
+  Pickup = 'pickup',
+  Delivery = 'dropoff',
+  Unkown = '',
+}
 
 export default function Details() {
+  const [details, setDetails] = useState<OrderDetails>({} as unknown as OrderDetails)
+  const [pickedDestination, setPickedDestination] = useState<DetailedDestination | null>(null)
+
+  useEffect(() => {
+    getOrder('').then(setDetails).catch(console.error)
+  }, [])
+
+  function getDestinationType(destination: DetailedDestination): DestinationType {
+    if (destination.place_id_pickup) return DestinationType.Pickup
+    if (destination.place_id_dropoff) return DestinationType.Delivery
+
+    return DestinationType.Unkown
+  }
+
   return (
     <>
       <Header title="Cargo Details" />
-
       <section className="order">
-        <div className="order__reference">Refrenecia A1180</div>
-        <div className="order__number">Order: #7804GNZ</div>
+        <div className="order__reference">Refrenecia {details.reference_number}</div>
+        <div className="order__number">Order: #{details.order_number}</div>
 
-        <ol className="order__locations">
-          <li className="order__location">
-            <div className="centered-flex order__location__decorator">
-              <TruckIcon />
-            </div>
+        <ol className="order__destinations">
+          {details.destinations?.map((destination) => (
+            <li key={destination.address} className="order__destination">
+              <button
+                type="button"
+                className="order__destination__button"
+                onClick={() => setPickedDestination(destination)}
+              />
 
-            <div className="order__location__details">
-              <LocationAddress />
-              <Status className="order__location__status" />
-            </div>
-          </li>
-          <li className="order__location">
-            <div className="centered-flex order__location__decorator">
-              <TruckIcon />
-            </div>
+              <div className="centered-flex order__destination__decorator">
+                <TruckIcon />
+              </div>
 
-            <div className="order__location__details">
-              <LocationAddress />
-              <Status className="order__location__status" />
-            </div>
-          </li>
+              <div className="order__destination__details">
+                <Destination address={destination.address} type={getDestinationType(destination)} />
+                <Status
+                  status={destination.status_string}
+                  statusClass={destination.status_class}
+                  className="order__destination__status"
+                />
+              </div>
+            </li>
+          ))}
         </ol>
       </section>
-
       <section className="track">
         <div className="track__driver centered-flex">
-          <img src={DriverImg} />
+          {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
+          <img src={details?.driver?.thumbnail || DefaultProfileImage} />
         </div>
 
-        <time className="track__time">10:30 PM</time>
+        <Time className="track__time" timestamp={pickedDestination?.startDate ?? 0}>
+          {formatTime(pickedDestination?.startDate ?? 0)}
+        </Time>
 
-        <ol className="track__steps">
-          <li className="track__step">Created Order</li>
-          <li className="track__step">Accepted Order</li>
-          <li className="track__step">Pick set up by William</li>
-          <li className="track__step">Pickup Completed</li>
-        </ol>
+        {pickedDestination && <TrackInfo type={getDestinationType(pickedDestination)} details={details} />}
 
-        <button type="button" disabled>
+        <button type="button" disabled={details.status < 3}>
           Track Order
         </button>
       </section>
 
       <details className="extra">
         <summary>
-          Pickup Data
+          {getDestinationType(pickedDestination ?? ({} as unknown as DetailedDestination))} Data
           <AngleUpIcon className="extra__open-indicator" />
         </summary>
 
-        <div className="extra__details">
-          Isidro Fabela 10, Valle Verde y Terminal, 50140 Toluca de Lerdo, México.
-          <br />
-          <br />
-          14 de Octubre 2023 10:30
-          <br />
-          <br />
-          +52 55 67 89 0346
-          <br />
-          <br />
-          johndoe@gmail.com
-        </div>
+        {pickedDestination
+          ? (
+            <div className="extra__details">
+              <p>{pickedDestination.address}</p>
+              <br />
+              <p>{formatDate(pickedDestination.startDate)}</p>
+              <br />
+              <p>{pickedDestination.contact_info.telephone}</p>
+              <br />
+              <p>{pickedDestination.contact_info.email}</p>
+            </div>
+            )
+          : (
+            <p>Por favor selecciona un destino primero</p>
+            )}
       </details>
     </>
   )

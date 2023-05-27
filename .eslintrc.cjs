@@ -17,5 +17,7 @@ module.exports = {
     'jsx-quotes': ['error', 'prefer-double'],
     'comma-dangle': 'off',
     '@typescript-eslint/comma-dangle': ['error', 'always-multiline'],
+    '@typescript-eslint/naming-convention': 'off',
+    '@typescript-eslint/strict-boolean-expressions': 'off',
   },
 }

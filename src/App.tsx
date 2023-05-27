@@ -1,7 +1,7 @@
-import Orders from '@/views/orders/orders'
-// import Details from '@/views/details/details'
+// import Orders from '@/views/orders/orders'
+import Details from '@/views/details/details'
 
 export default function App() {
-  return <Orders />
-  // return <Details />
+  // return <Orders />
+  return <Details />
 }
